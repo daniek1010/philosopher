@@ -111,10 +111,10 @@ typedef struct s_main
 int		ft_parse(int argc, char *argv[], t_main *main);
 char	**param_split(int argc, char *argv[], t_main *main);
 char	**ft_splitt(char const *s, char c, long *count);
-void		philo_eating(t_philo *philo, int index);
+void		philo_eating(t_philo *philo);
 void		sleep_time(t_philo *philo);
 void	think_time(t_philo *philo);
-int		philos_is_dead(t_philo *philo, int *i);
+int		philos_is_dead(t_philo *philo);
 void	*checker_rout(void *data);
 
 /*Declaration of mal_pth.c files*/
