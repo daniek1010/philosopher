@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:39:13 by danevans          #+#    #+#             */
-/*   Updated: 2024/04/29 23:16:41 by danevans         ###   ########.fr       */
+/*   Updated: 2024/05/09 13:37:50 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef	struct s_input
 /* every philo should have*/
 typedef struct s_philo
 {
+	// int			index_based;
 	int			id;
 	int			index;
 	int			meals_ate;
@@ -85,6 +86,9 @@ typedef struct s_philo
 	t_fork		fork;
 	t_input		input;
 	t_main		*main;
+
+	t_mtx		dead;
+	t_mtx		lock;
 }t_philo;
 
 typedef struct s_main
@@ -98,6 +102,7 @@ typedef struct s_main
 	t_fork		fork;
 	t_mtx		*forks;
 	t_mtx		write;
+	
 	t_philo		*philo;
 	pthread_t	checker;
 }t_main;
@@ -113,7 +118,7 @@ char	**param_split(int argc, char *argv[], t_main *main);
 char	**ft_splitt(char const *s, char c, long *count);
 void		philo_eating(t_philo *philo);
 void		sleep_time(t_philo *philo);
-void	think_time(t_philo *philo);
+void	think_time(t_philo *philo, bool pre_simulation);
 int		philos_is_dead(t_philo *philo);
 void	*checker_rout(void *data);
 
@@ -129,7 +134,7 @@ void	thread_error(int status, t_code opcode);
 void	error_exit(const char *error);
 
 void 	data_init (t_main *table);
-int	philo_print(t_philo *philo, int id, char *color, char *status);
+int		philo_print(t_philo *philo, char *color, char *status);
 void	precise_usleep(long ms);
 long	get_current_time(void);
 #endif 

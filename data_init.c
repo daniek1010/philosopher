@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:42:57 by danevans          #+#    #+#             */
-/*   Updated: 2024/04/30 00:25:50 by danevans         ###   ########.fr       */
+/*   Updated: 2024/05/09 15:34:59 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	assign_fork(t_main *main)
 /*Every philo is assigned a left and right fuck*/
 static void	fill_philo(t_main *main, int i, int j)
 {
-	// main->philo[i].index = i;
+	main->philo[i].index = i;
 	main->philo[i].id = i + 1;
 	main->philo[i].meals_ate = 0;
 	main->philo[i].last_time_ate = main->t0;
@@ -55,7 +55,7 @@ void	de_synchronize_philos(t_philo *philo)
 	else
 	{
 		if (philo->id % 2)
-			think_time(philo);
+			think_time(philo, true);
 	}
 }
 
@@ -65,8 +65,6 @@ void data_init (t_main *main)
 
 	i = -1;
 	main->t0 = get_current_time();
-	printf("time at start %ld\n", main->t0);
-
 	main->full = false;
 	main->is_dead = false;
 	main->forks = mal_create(main->input.num_philo * sizeof(t_mtx));
@@ -78,21 +76,27 @@ void data_init (t_main *main)
 	i = -1;
 	while (++i < main->input.num_philo)
 		thread_jobs(&main->philo[i].thread, &routine, &main->philo[i] , CREATE);
-	//printf("direct access to id >> %d\n", main->philo.)
 	thread_jobs(&main->checker, &checker_rout, main, CREATE);
 	i = -1;
 	while (++i < main->input.num_philo)
-	{
 		thread_jobs(&main->philo[i].thread, &routine, &main->philo[i] , JOIN);
-	}
 	thread_jobs(&main->checker, &checker_rout, main, JOIN);
 }
 
 void	routine_execute(t_philo *philo)
 {
-	philo_eating(philo);
-	sleep_time(philo);
-	think_time(philo);
+    if (philo->main->is_dead || philo->main->full)
+        return; 
+    philo_eating(philo);
+
+    if (philo->main->is_dead || philo->main->full)
+        return;
+
+    sleep_time(philo);
+
+    if (philo->main->is_dead || philo->main->full)
+        return;
+    think_time(philo, false);	
 }
 
 void	*routine(void *data)
@@ -103,15 +107,11 @@ void	*routine(void *data)
 	philo = (t_philo *)data;
 	de_synchronize_philos(philo);
 	if (philo->main->input.sum_to_eat > 0)
-	{
 		while (philo->main->full == false && philo->main->is_dead == false)
 			routine_execute(philo);
-	}
 	else
-	{
 		while (philo->main->is_dead == false)
-			routine_execute(philo);
-	}
+			routine_execute(philo);		
 	return (NULL);
 }
 
@@ -122,18 +122,19 @@ void	*checker_rout(void *data)
 
 	main = (t_main *)data;
 	
-	while (!main->is_dead && !main->full)
+	while (!main->philo->main->is_dead && !main->philo->main->full)
 	{
-		i = -1;
-		while (++i < main->input.num_philo)
+		i = 0;
+		while (i < main->input.num_philo)
 		{
 			if (philos_is_dead(&main->philo[i]) == true)
 			{
-				philo_print(&main->philo[i], main->philo[i].id, RED, "DEAD");
-				return (NULL);
+				philo_print(&main->philo[i], RED, "dead");
+				return (NULL) ;
 			}
+			i++;
 		}
-		usleep(1000);
+		//usleep(10000);
 	}
 	return (NULL);
 }
