@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:42:57 by danevans          #+#    #+#             */
-/*   Updated: 2024/05/09 15:34:59 by danevans         ###   ########.fr       */
+/*   Updated: 2024/05/10 02:42:51 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static void	fill_philo(t_main *main, int i, int j)
 	main->philo[i].last_time_ate = main->t0;
 	main->philo[i].fork.left = i;
 	main->philo[i].fork.right = j;
+	mutex_jobs(&main->philo->philo_mutex, INIT);
+	
 	main->philo[i].main = main;
 }
 
@@ -83,37 +85,55 @@ void data_init (t_main *main)
 	thread_jobs(&main->checker, &checker_rout, main, JOIN);
 }
 
-void	routine_execute(t_philo *philo)
-{
-    if (philo->main->is_dead || philo->main->full)
-        return; 
-    philo_eating(philo);
+// void	routine_execute(t_philo *philo)
+// {
+//     philo_eating(philo);
+// 	if (philo->full || philo->main->is_dead)
+// 		return ;
+//     sleep_time(philo);
+//     think_time(philo, false);	
+// }
 
-    if (philo->main->is_dead || philo->main->full)
-        return;
+// void	*routine(void *data)
+// {
+// 	t_philo	*philo;
+// 	int		i;
 
-    sleep_time(philo);
+// 	philo = (t_philo *)data;
+// 	de_synchronize_philos(philo);
+// 	while (!philo->main->is_dead)
+// 	{
+// 		printf("what is is dead with philo_id %d %d\n", philo->id, philo->main->is_dead);
+// 		fflush(stdout);
+// 		if (philo->full)
+// 			break ;
+// 		philo_eating(philo);
+// 		sleep_time(philo);
+// 		think_time(philo, false);	
+// 	}
+// 	return (NULL);
+// }
 
-    if (philo->main->is_dead || philo->main->full)
-        return;
-    think_time(philo, false);	
+void *routine(void *data) {
+    t_philo *philo = (t_philo *)data;
+    de_synchronize_philos(philo);
+
+    while (!philo->main->is_dead) {
+		printf("what is is dead with philo_id %d %d\n", philo->id, philo->main->is_dead);
+        pthread_mutex_lock(&philo->philo_mutex);
+        if (philo->main->is_dead) {
+            pthread_mutex_unlock(&philo->philo_mutex);
+            break;
+        }
+        pthread_mutex_unlock(&philo->philo_mutex);
+
+        philo_eating(philo);
+        sleep_time(philo);
+        think_time(philo, false);
+    }
+    return NULL;
 }
 
-void	*routine(void *data)
-{
-	t_philo	*philo;
-	int		i;
-
-	philo = (t_philo *)data;
-	de_synchronize_philos(philo);
-	if (philo->main->input.sum_to_eat > 0)
-		while (philo->main->full == false && philo->main->is_dead == false)
-			routine_execute(philo);
-	else
-		while (philo->main->is_dead == false)
-			routine_execute(philo);		
-	return (NULL);
-}
 
 void	*checker_rout(void *data)
 {
@@ -122,15 +142,17 @@ void	*checker_rout(void *data)
 
 	main = (t_main *)data;
 	
-	while (!main->philo->main->is_dead && !main->philo->main->full)
+	while (!main->is_dead && !main->philo->full)
 	{
 		i = 0;
-		while (i < main->input.num_philo)
+		while (i < main->input.num_philo && !main->is_dead)
 		{
-			if (philos_is_dead(&main->philo[i]) == true)
+			if (philos_is_dead(main->philo + i))
 			{
+				mutex_jobs(&main->lock, LOCK);
+				main->is_dead = true;
+				mutex_jobs(&main->lock, UNLOCK);
 				philo_print(&main->philo[i], RED, "dead");
-				return (NULL) ;
 			}
 			i++;
 		}
@@ -138,3 +160,31 @@ void	*checker_rout(void *data)
 	}
 	return (NULL);
 }
+
+
+// void	*routine(void *data)
+// {
+// 	t_philo	*philo;
+// 	int		i;
+
+// 	philo = (t_philo *)data;
+// 	de_synchronize_philos(philo);
+// 	// if (philo->main->input.sum_to_eat > 0)
+// 		while (philo->full == false && philo->main->is_dead == false)
+// 		{
+// 			if (philo->main->is_dead == true)
+// 				break ;
+// 			philo_eating(philo);
+// 			if (philo->full || philo->main->is_dead)
+// 				break ;
+// 			sleep_time(philo);
+// 			if (philo->main->is_dead == true)
+// 				break ;
+// 			think_time(philo, false);	
+// 		}
+// 			//routine_execute(philo);
+// 	// else
+// 	// 	while (philo->main->is_dead == false)
+// 	// 		routine_execute(philo);		
+// 	return (NULL);
+// }

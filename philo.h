@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:39:13 by danevans          #+#    #+#             */
-/*   Updated: 2024/05/09 13:37:50 by danevans         ###   ########.fr       */
+/*   Updated: 2024/05/10 02:41:57 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,15 @@ typedef struct s_philo
 	int			id;
 	int			index;
 	int			meals_ate;
+	bool		full;
 	long		last_time_ate;
-	pthread_t	thread;
 	t_fork		fork;
 	t_input		input;
+	pthread_t	thread;
 	t_main		*main;
+	t_mtx		philo_mutex;
 
-	t_mtx		dead;
+	
 	t_mtx		lock;
 }t_philo;
 
@@ -104,6 +106,10 @@ typedef struct s_main
 	t_mtx		write;
 	
 	t_philo		*philo;
+
+	t_mtx		lock;
+
+	
 	pthread_t	checker;
 }t_main;
 
@@ -119,7 +125,7 @@ char	**ft_splitt(char const *s, char c, long *count);
 void		philo_eating(t_philo *philo);
 void		sleep_time(t_philo *philo);
 void	think_time(t_philo *philo, bool pre_simulation);
-int		philos_is_dead(t_philo *philo);
+bool		philos_is_dead(t_philo *philo);
 void	*checker_rout(void *data);
 
 /*Declaration of mal_pth.c files*/
