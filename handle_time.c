@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_time.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 22:40:09 by danevans          #+#    #+#             */
-/*   Updated: 2024/04/29 13:21:55 by danevans         ###   ########.fr       */
+/*   Updated: 2024/05/11 05:33:01 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <string.h>
 #include "philo.h"
 
+/* This would get return in ms */
 long	get_current_time(void)
 {
 	struct timeval	time;
@@ -23,22 +24,8 @@ long	get_current_time(void)
 	if (gettimeofday(&time, NULL) == -1)
 		error_exit("TIME FAILED");
 	else
-		return(time.tv_sec * 1000) + (time.tv_usec / 1000);
+		return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
-
-// long	get_current_time(void)
-// {
-// 	struct timeval	time;
-
-// 	if (gettimeofday(&time, NULL) == -1)
-// 		error_exit("TIME FAILED");
-// 	else
-// 	{
-// 		get_time - 
-// 	}
-// 		return(time.tv_sec * 1000) + (time.tv_usec / 1000);
-// }
-
 
 /* this uses usleep to sleep the rem,
 checks time used - time to sleep, used 1e4 
@@ -51,44 +38,26 @@ void	precise_usleep(long ms)
 	long	time_end;
 
 	time_start = get_current_time();
-	//printf("========== %ld", time_start);
 	elapsed = 0;
 	while (ms > elapsed)
-		{
-			time_end = get_current_time();
-			elapsed = time_end - time_start;
-			rem = ms - elapsed;
-			//printf("========== %f\n", rem);
-			if (rem > 100000)
-				usleep((rem * 1000));
-		}
-	
-	//printf("got \n");
+	{
+		time_end = get_current_time();
+		elapsed = time_end - time_start;
+		rem = ms - elapsed;
+		if (rem > 100000)
+			usleep((rem * 1000));
+	}
 }
 
-int main(int argc, char *argv[]) 
+void	free_matrix(char *str[])
 {
-	int i = 0;
-	t_main	main;
-	ft_parse(argc, argv, &main);
-	data_init(&main);
-	// while (i < main.input.num_philo)
-	// {
-	// 	printf("value of id = %d, forks %d %d\n", main.philo[i].id, main.philo[i].fork.left, main.philo[i].fork.right);
-	// 	//input.philo[i].times_ate++;
-	// 	i++;
-	// }
-	// //printf("here \n");
-	// //i = -1;
-	// // while (++i < input.num_philo)
-	// // 	thread_jobs(&input.philo[i].thread, &routine, &input , JOIN);
-	// //mutex_jobs(&input.forks[input.philo->fork.left], DESTROY);
-	// i = -1;
-	// while (++i < main.input.num_philo)
-	// {
-	// 	printf("checkingsss  %d %d\n", i, main.philo[i].times_ate);
-	// }
+	int	i;
 
-	//printf("value of %id, forks %d %d", input.philo->id, input.philo[i].fork.left, input.philo[i].fork.right);
+	i = 0;
+	while (str[i] != NULL)
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }
-

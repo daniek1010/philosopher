@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:39:13 by danevans          #+#    #+#             */
-/*   Updated: 2024/05/10 02:41:57 by danevans         ###   ########.fr       */
+/*   Updated: 2024/05/11 05:33:13 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@
 
 /*alias mutex define*/
 typedef pthread_mutex_t t_mtx;
-typedef	struct s_input	t_input;
 typedef struct s_main	t_main;
 typedef struct s_philo	t_philo;
 
@@ -63,28 +62,15 @@ typedef	struct s_fork
 	int	left;
 }t_fork;
 
-/*cmmd args are passed here*/
-typedef	struct s_input
-{
-	int 		num_philo;
-	long		time_to_die;
-	long		time_to_eat;
-	long		time_to_sleep;
-	long		sum_to_eat;
-	
-}t_input;
-
 /* every philo should have*/
 typedef struct s_philo
 {
-	// int			index_based;
 	int			id;
 	int			index;
 	int			meals_ate;
 	bool		full;
 	long		last_time_ate;
 	t_fork		fork;
-	t_input		input;
 	pthread_t	thread;
 	t_main		*main;
 	t_mtx		philo_mutex;
@@ -95,27 +81,43 @@ typedef struct s_philo
 
 typedef struct s_main
 {
-	bool		all_thread_created;
-	bool		is_dead; // not initialised
-	bool		full; 
-	int			n_thread;
-	long		t0;
-	t_input		input;
-	t_fork		fork;
 	t_mtx		*forks;
 	t_mtx		write;
 	
 	t_philo		*philo;
+	long		argc_count;
+	int 		num_philo;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
+	long		sum_to_eat;
 
-	t_mtx		lock;
+	
+	bool		all_thread_created;
+	bool		is_dead; // not initialised
+	int			n_thread;
+	long		t0;
+	
+	
+
+	t_mtx		lock_mtx;
 
 	
 	pthread_t	checker;
 }t_main;
 
+void	mutiple_diner(t_main *main);
+void	*lone_diner(void *data);
 
 
+void	free_matrix(char *str[]);
 
+void	ft_cleanup(t_main *main);
+
+bool	get_bool(t_mtx *mutex, bool *value);
+void	set_bool(t_mtx	*mutex, bool *dest, bool value);
+void	set_long(t_mtx	*mutex, long *dest, long value);
+void	de_synchronize_philos(t_philo *philo);
 
 
 
@@ -127,6 +129,10 @@ void		sleep_time(t_philo *philo);
 void	think_time(t_philo *philo, bool pre_simulation);
 bool		philos_is_dead(t_philo *philo);
 void	*checker_rout(void *data);
+
+
+void	data_init (t_main *main);
+void	*routine(void *data);
 
 /*Declaration of mal_pth.c files*/
 void	*mal_create(size_t bytes);
@@ -140,7 +146,7 @@ void	thread_error(int status, t_code opcode);
 void	error_exit(const char *error);
 
 void 	data_init (t_main *table);
-int		philo_print(t_philo *philo, char *color, char *status);
+int		philo_print(t_philo *philo, char *color, char *status, char *str);
 void	precise_usleep(long ms);
 long	get_current_time(void);
 #endif 

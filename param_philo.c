@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   param_philo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:48:01 by danevans          #+#    #+#             */
-/*   Updated: 2024/04/10 13:46:09 by danevans         ###   ########.fr       */
+/*   Updated: 2024/05/11 05:36:13 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "philo.h"
-//this should a call a function that passes the argc and argv
-	//check for validity and return;
 #include "philo.h"
 
 /*if the whole string are num 0 - 9*/
@@ -35,7 +32,7 @@ static int	digit_check(int argc, char *argv[])
 		{
 			if (((holder[j] < '0') || (holder[j] > '9' )) && (holder[j] != ' '))
 				error_exit("Args contains non digit!!"
-			"Enter digit only 0 - 9 !!!");
+					"Enter digit only 0 - 9 !!!");
 			j++;
 		}
 		i++;
@@ -54,7 +51,7 @@ char	**param_split(int argc, char *argv[], t_main *main)
 
 	if (!digit_check(argc, argv))
 		return (NULL);
-	holder = ft_calloc(1, 1); // have to handle the calloc funtion here 
+	holder = ft_calloc(1, 1);
 	i = 0;
 	while (++i < argc)
 	{
@@ -68,7 +65,7 @@ char	**param_split(int argc, char *argv[], t_main *main)
 			holder = temp;
 		}
 	}
-	container = ft_splitt(holder, ' ', &main->input.sum_to_eat);
+	container = ft_splitt(holder, ' ', &main->argc_count);
 	free(holder);
 	return (container);
 }
@@ -79,23 +76,31 @@ int	ft_parse(int argc, char *argv[], t_main *main)
 	char	**temp;
 
 	temp = param_split(argc, argv, main);
-	if ((main->input.sum_to_eat != 5) && (main->input.sum_to_eat != 6))
+	if ((main->argc_count != 5) && (main->argc_count != 6))
+	{
+		free_matrix(temp);
 		error_exit("Args should be 4 max 5 "
 			"num1 num2 num3 num4 num5[optional]");
-	if ((main->input.sum_to_eat == 5) || (main->input.sum_to_eat == 6))
-	{
-		main->input.num_philo = ft_atoi(argv[1]);
-		main->input.time_to_die = ft_atoi(argv[2]);
-		main->input.time_to_eat = ft_atoi(argv[3]);
-		main->input.time_to_sleep = ft_atoi(argv[4]);
-		// if (main->input.time_to_die < 6e4 || main->input.time_to_sleep < 6e4 
-		// 	|| main->input.time_to_die < 6e4)
-		// 	error_exit("give value greater than 60ms");
-		if (main->input.sum_to_eat == 6)
-			main->input.sum_to_eat = ft_atoi(argv[5]);
-		else if (main->input.sum_to_eat == 5)
-			main->input.sum_to_eat = -1;
-		return (0);
 	}
+	if ((main->argc_count == 5) || (main->argc_count == 6))
+	{
+		main->num_philo = ft_atoi(temp[0]);
+		main->time_to_die = ft_atoi(temp[1]);
+		main->time_to_eat = ft_atoi(temp[2]);
+		main->time_to_sleep = ft_atoi(temp[3]);
+		if (main->time_to_die < 60 || main->time_to_sleep < 60
+			|| main->time_to_die < 60)
+			error_exit("give value greater than 60ms");
+		if (main->argc_count == 6)
+			main->sum_to_eat = ft_atoi(temp[4]);
+		else if (main->argc_count == 5)
+			main->sum_to_eat = -1;
+	}
+	if (main->num_philo > 200)
+	{
+		free_matrix(temp);
+		error_exit("Philo should be less than 200");
+	}
+	free_matrix(temp);
+	return (1);
 }
-
