@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:39:13 by danevans          #+#    #+#             */
-/*   Updated: 2024/05/11 05:33:13 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:54:57 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdlib.h>
-#include "./libft/libft.h"
 #include <sys/time.h>
 #include <pthread.h>
 
@@ -149,4 +148,14 @@ void 	data_init (t_main *table);
 int		philo_print(t_philo *philo, char *color, char *status, char *str);
 void	precise_usleep(long ms);
 long	get_current_time(void);
+
+
+int	ft_atoi(const char *nptr);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlen(const char *s);
+void	*ft_memset(void *s, int c, size_t n);
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t nmemb, size_t size);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 #endif 

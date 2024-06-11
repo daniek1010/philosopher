@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:29:18 by danevans          #+#    #+#             */
-/*   Updated: 2024/05/11 05:51:22 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/11 14:18:11 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int main(int argc, char *argv[]) 
 {
+	if (argc == 1)
+		error_exit("Args should be 4 max 5 "
+			"num1 num2 num3 num4 num5[optional]");
 	t_main	main;
 	ft_parse(argc, argv, &main);
 	data_init(&main);

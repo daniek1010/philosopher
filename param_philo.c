@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:48:01 by danevans          #+#    #+#             */
-/*   Updated: 2024/05/11 05:36:13 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:02:02 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,39 @@ int	ft_parse(int argc, char *argv[], t_main *main)
 		else if (main->argc_count == 5)
 			main->sum_to_eat = -1;
 	}
-	if (main->num_philo > 200)
+	if (main->num_philo > 200 || main->num_philo < 1)
 	{
 		free_matrix(temp);
-		error_exit("Philo should be less than 200");
+		error_exit("Philo > 1 && Philo < 200");
 	}
 	free_matrix(temp);
 	return (1);
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	unsigned int	index;
+	char			*str;
+
+	if (start >= ft_strlen(s) || len <= 0)
+	{
+		str = (char *)malloc(sizeof(char));
+		if (str == NULL)
+			return (NULL);
+		*str = '\0';
+		return (str);
+	}
+	if ((ft_strlen(s) - start) < len)
+		len = ft_strlen(s) - start;
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	index = 0;
+	while (index < len && s[start + index] != '\0')
+	{
+		str[index] = s[start + index];
+		index++;
+	}
+	str[index] = '\0';
+	return (str);
 }

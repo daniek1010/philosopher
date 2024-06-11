@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:23:05 by danevans          #+#    #+#             */
-/*   Updated: 2024/05/11 03:12:57 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:56:13 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ action to sleep
 action think */
 void	philo_eating(t_philo *philo)
 {
-	mutex_jobs(&philo->main->forks[philo->fork.left], LOCK);
-	philo_print(philo, BLUE, "has taken a fork", "EATING");
 	mutex_jobs(&philo->main->forks[philo->fork.right], LOCK);
+	philo_print(philo, BLUE, "has taken a fork", "EATING");
+	mutex_jobs(&philo->main->forks[philo->fork.left], LOCK);
 	philo_print(philo, BLUE, "has taken a fork", "EATING");
 	philo_print(philo, YELLOW, "is eating", "EATING");
 	set_long(&philo->philo_mutex, &philo->last_time_ate, get_current_time());
@@ -27,8 +27,8 @@ void	philo_eating(t_philo *philo)
 	precise_usleep(philo->main->time_to_eat);
 	if (philo->meals_ate == philo->main->sum_to_eat)
 		set_bool(&philo->philo_mutex, &philo->full, true);
-	mutex_jobs(&philo->main->forks[philo->fork.left], UNLOCK);
 	mutex_jobs(&philo->main->forks[philo->fork.right], UNLOCK);
+	mutex_jobs(&philo->main->forks[philo->fork.left], UNLOCK);
 }
 
 void	sleep_time(t_philo *philo)
