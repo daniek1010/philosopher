@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:23:05 by danevans          #+#    #+#             */
-/*   Updated: 2024/06/11 20:15:36 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:13:01 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	philo_eating(t_philo *philo)
 	set_long(&philo->philo_mutex, &philo->last_time_ate, get_current_time());
 	set_meals_ate(&philo->philo_mutex, &philo->meals_ate);
 	precise_usleep(philo->main->time_to_eat);
-	if (get_meals_ate(&philo->philo_mutex, &philo->meals_ate) == philo->main->sum_to_eat)
+	if (get_meals_ate(&philo->philo_mutex, &philo->meals_ate) 
+		== philo->main->sum_to_eat)
 		set_bool(&philo->philo_mutex, &philo->full, true);
 	mutex_jobs(&philo->main->forks[philo->fork.right], UNLOCK);
 	mutex_jobs(&philo->main->forks[philo->fork.left], UNLOCK);
@@ -96,4 +97,5 @@ int	philo_print(t_philo *philo, char *color, char *status, char *str)
 	else if (ft_strncmp(str, "DEAD", ft_strlen(str)) == 0)
 		printf("%s%-3ld %-3d %-5s%s\n", color, now, id, status, RESET);
 	mutex_jobs(&philo->main->write, UNLOCK);
+	return (0);
 }

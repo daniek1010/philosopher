@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_time.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 22:40:09 by danevans          #+#    #+#             */
-/*   Updated: 2024/06/11 14:41:54 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:14:41 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ long	get_current_time(void)
 		error_exit("TIME FAILED");
 	else
 		return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
+	return (-1);
 }
 
 /* this uses usleep to sleep the rem,

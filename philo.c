@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:29:18 by danevans          #+#    #+#             */
-/*   Updated: 2024/06/11 14:18:11 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:43:19 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int main(int argc, char *argv[]) 
+int	main(int argc, char *argv[])
 {
+	t_main	main;
+
 	if (argc == 1)
 		error_exit("Args should be 4 max 5 "
 			"num1 num2 num3 num4 num5[optional]");
-	t_main	main;
 	ft_parse(argc, argv, &main);
 	data_init(&main);
 	if (main.num_philo == 1)
@@ -30,7 +31,7 @@ int main(int argc, char *argv[])
 	else if (main.num_philo > 1)
 		mutiple_diner(&main);
 	ft_cleanup(&main);
-		
+	return (0);
 }
 
 void	*lone_diner(void *data)
@@ -40,7 +41,7 @@ void	*lone_diner(void *data)
 	philo = (t_philo *) data;
 	philo_print(philo, BLUE, "has taken a fork", "EATING");
 	set_long(&philo->philo_mutex, &philo->last_time_ate, get_current_time());
-	while(!get_bool(&philo->philo_mutex, &philo->main->is_dead))
+	while (!get_bool(&philo->philo_mutex, &philo->main->is_dead))
 		precise_usleep(200);
 	return (NULL);
 }

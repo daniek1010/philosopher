@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   param_philo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:48:01 by danevans          #+#    #+#             */
-/*   Updated: 2024/06/11 15:02:02 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:21:34 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static int	digit_check(int argc, char *argv[])
 char	**param_split(int argc, char *argv[], t_main *main)
 {
 	int		i;
-	int		size;
 	char	*holder;
 	char	*temp;
 	char	**container;
@@ -77,11 +76,7 @@ int	ft_parse(int argc, char *argv[], t_main *main)
 
 	temp = param_split(argc, argv, main);
 	if ((main->argc_count != 5) && (main->argc_count != 6))
-	{
-		free_matrix(temp);
-		error_exit("Args should be 4 max 5 "
-			"num1 num2 num3 num4 num5[optional]");
-	}
+		philo_num_error(temp, 1);
 	if ((main->argc_count == 5) || (main->argc_count == 6))
 	{
 		main->num_philo = ft_atoi(temp[0]);
@@ -97,10 +92,7 @@ int	ft_parse(int argc, char *argv[], t_main *main)
 			main->sum_to_eat = -1;
 	}
 	if (main->num_philo > 200 || main->num_philo < 1)
-	{
-		free_matrix(temp);
-		error_exit("Philo > 1 && Philo < 200");
-	}
+		philo_num_error(temp, 2);
 	free_matrix(temp);
 	return (1);
 }

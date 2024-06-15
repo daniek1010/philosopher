@@ -3,42 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 14:30:04 by danevans          #+#    #+#             */
-/*   Updated: 2024/05/11 05:34:51 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:28:55 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	ft_error(int num)
-{
-	if (num == 1)
-	{
-		printf(RED "Args contains non digit!!!!\n"
-			"Enter digit only 0 - 9 !!!!\n" RESET);
-		exit (1);
-	}
-	else if (num == 2)
-	{
-		printf(RED "Args should be 4 max 5 !!!\n"
-			"num1 num2 num3 num4 num5[optional]\n" RESET);
-		exit (1);	
-	}
-	// else if (num == 2)
-	// {
-	// 	printf(RED"🚨 %s 🚨\n"RESET, error);
-	// exit(EXIT_FAILURE);
-	// }
-}
 
 void	error_exit(const char *error)
 {
 	printf(RED"🚨 %s 🚨\n"RESET, error);
 	exit(EXIT_FAILURE);
 }
-
 
 static int	count_words(char const *s, char c)
 {

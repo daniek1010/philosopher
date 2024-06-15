@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_lift.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 14:44:22 by danevans          #+#    #+#             */
-/*   Updated: 2024/06/11 14:49:11 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:24:42 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,20 +105,4 @@ void	*ft_memset(void *s, int c, size_t n)
 		i++;
 	}
 	return (s);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	ft_memset(s, '\0', n);
-}
-
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	void	*result;
-
-	result = malloc(nmemb * size);
-	if (result == NULL)
-		return (NULL);
-	ft_bzero(result, nmemb * size);
-	return (result);
 }

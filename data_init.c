@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:42:57 by danevans          #+#    #+#             */
-/*   Updated: 2024/05/11 05:22:45 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/16 01:14:13 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	data_init(t_main *main)
 void	*routine(void *data)
 {
 	t_philo	*philo;
-	int		i;
 
 	philo = (t_philo *)data;
 	de_synchronize_philos(philo);
@@ -82,8 +81,6 @@ void	*checker_rout(void *data)
 {
 	t_main	*main;
 	int		i;
-	long	now;
-	long	time;
 
 	main = (t_main *)data;
 	while (!get_bool(&main->lock_mtx, &main->is_dead))
