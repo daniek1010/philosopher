@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 23:38:55 by danevans          #+#    #+#             */
-/*   Updated: 2024/05/11 05:33:37 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:12:57 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,33 @@ void	set_long(t_mtx	*mutex, long *dest, long value)
 	mutex_jobs(mutex, LOCK);
 	*dest = value;
 	mutex_jobs(mutex, UNLOCK);
+}
+
+long	get_long(t_mtx	*mutex, long *value)
+{
+	long res;
+
+	mutex_jobs(mutex, LOCK);
+	res = *value;
+	mutex_jobs(mutex, UNLOCK);
+	return (res);
+}
+
+void	set_meals_ate(t_mtx *mutex, int *variable)
+{
+	mutex_jobs(mutex, LOCK);
+    (*variable)++;
+    mutex_jobs(mutex, UNLOCK);
+}
+
+int	get_meals_ate(t_mtx *mutex, int *variable)
+{
+	int	ate;
+
+	mutex_jobs(mutex, LOCK);
+    ate = *variable;
+    mutex_jobs(mutex, UNLOCK);
+	return (ate);
 }
 
 /*	I used this function to slow down the immediate 

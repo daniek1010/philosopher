@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:39:13 by danevans          #+#    #+#             */
-/*   Updated: 2024/06/11 14:54:57 by danevans         ###   ########.fr       */
+/*   Updated: 2024/06/11 20:13:49 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,10 @@ bool	get_bool(t_mtx *mutex, bool *value);
 void	set_bool(t_mtx	*mutex, bool *dest, bool value);
 void	set_long(t_mtx	*mutex, long *dest, long value);
 void	de_synchronize_philos(t_philo *philo);
+long	get_long(t_mtx	*mutex, long *value);
+
+int	get_meals_ate(t_mtx *mutex, int *variable);
+void	set_meals_ate(t_mtx *mutex, int *variable);
 
 
 
