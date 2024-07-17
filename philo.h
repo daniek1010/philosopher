@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:39:13 by danevans          #+#    #+#             */
-/*   Updated: 2024/06/16 01:51:49 by danevans         ###   ########.fr       */
+/*   Updated: 2024/07/17 22:34:31 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 # define PHILO_H
 
+# include <stddef.h>
 # include <stdio.h>
 # include <errno.h>
 # include <stdbool.h>
@@ -50,14 +51,14 @@ typedef enum s_code
 	CREATE,
 	JOIN,
 	DETACH,
-}t_code;
+}	t_code;
 
 /* this contains the fork */
 typedef struct s_fork
 {
 	int	right;
 	int	left;
-}t_fork;
+}	t_fork;
 
 /* every philo should have*/
 typedef struct s_philo
@@ -72,7 +73,7 @@ typedef struct s_philo
 	t_main		*main;
 	t_mtx		philo_mutex;
 	t_mtx		lock;
-}t_philo;
+}	t_philo;
 
 typedef struct s_main
 {
@@ -91,7 +92,7 @@ typedef struct s_main
 	long		t0;
 	t_mtx		lock_mtx;
 	pthread_t	checker;
-}t_main;
+}	t_main;
 
 void	mutiple_diner(t_main *main);
 void	*lone_diner(void *data);
@@ -122,7 +123,7 @@ void	*routine(void *data);
 void	*mal_create(size_t bytes);
 void	mutex_jobs(t_mtx *mutex, t_code opcode);
 void	mutex_error(int status, t_code opcode);
-void	thread_jobs(pthread_t *thread, void *(*foo)(void *), 
+void	thread_jobs(pthread_t *thread, void *(*foo)(void *),
 			void *data, t_code opcode);
 void	thread_error(int status, t_code opcode);
 

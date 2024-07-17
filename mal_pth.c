@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mal_pth.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:51:31 by danevans          #+#    #+#             */
-/*   Updated: 2024/04/08 19:19:14 by danevans         ###   ########.fr       */
+/*   Updated: 2024/07/17 22:31:37 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	thread_error(int status, t_code opcode)
 		return ;
 	else if (EINVAL == status && CREATE == opcode)
 		error_exit("Invalid settings in the attributes object.");
-	else if (EAGAIN == status) 
+	else if (EAGAIN == status)
 		error_exit("The system lacks the necessary resources"
 			"to create another thread.");
 	else if (EINVAL == status && (JOIN == opcode || DETACH == opcode))
