@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   param_philo.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/01 18:48:01 by danevans          #+#    #+#             */
-/*   Updated: 2024/06/16 01:21:34 by danevans         ###   ########.fr       */
+/*   Updated: 2024/07/17 22:59:38 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	ft_parse(int argc, char *argv[], t_main *main)
 		main->time_to_sleep = ft_atoi(temp[3]);
 		if (main->time_to_die < 60 || main->time_to_sleep < 60
 			|| main->time_to_die < 60)
-			error_exit("give value greater than 60ms");
+			philo_num_error(temp, 3);
 		if (main->argc_count == 6)
 			main->sum_to_eat = ft_atoi(temp[4]);
 		else if (main->argc_count == 5)

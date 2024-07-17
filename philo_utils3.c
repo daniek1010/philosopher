@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 01:23:56 by danevans          #+#    #+#             */
-/*   Updated: 2024/06/16 01:40:49 by danevans         ###   ########.fr       */
+/*   Updated: 2024/07/17 22:58:16 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,10 @@ void	philo_num_error(char *str[], int num)
 	{
 		free_matrix(str);
 		error_exit("Philo > 1 && Philo < 200");
+	}
+	else if (num == 3)
+	{
+		free_matrix(str);
+		error_exit("give value greater than 60ms");
 	}
 }

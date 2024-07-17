@@ -1,4 +1,4 @@
-NAME = philosopher
+NAME = philo
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -I.
 # CFLAGS = -I.
