@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   action.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:23:05 by danevans          #+#    #+#             */
-/*   Updated: 2024/07/17 22:30:55 by danevans         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:36:44 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,61 @@
 /* action to eat 
 action to sleep
 action think */
-void	philo_eating(t_philo *philo)
+// void	philo_eating(t_philo *philo)
+// {
+// 	mutex_jobs(&philo->main->forks[philo->fork.right], LOCK);
+// 	philo_print(philo, BLUE, "has taken a fork", "EATING");
+// 	mutex_jobs(&philo->main->forks[philo->fork.left], LOCK);
+// 	philo_print(philo, BLUE, "has taken a fork", "EATING");
+// 	philo_print(philo, YELLOW, "is eating", "EATING");
+// 	set_long(&philo->philo_mutex, &philo->last_time_ate, get_current_time());
+// 	set_meals_ate(&philo->philo_mutex, &philo->meals_ate);
+// 	precise_usleep(philo->main->time_to_eat);
+// 	if (get_meals_ate(&philo->philo_mutex, &philo->meals_ate)
+// 		== philo->main->sum_to_eat)
+// 		set_bool(&philo->philo_mutex, &philo->full, true);
+// 	mutex_jobs(&philo->main->forks[philo->fork.right], UNLOCK);
+// 	mutex_jobs(&philo->main->forks[philo->fork.left], UNLOCK);
+// }
+
+void philo_eating(t_philo *philo)
 {
-	mutex_jobs(&philo->main->forks[philo->fork.right], LOCK);
-	philo_print(philo, BLUE, "has taken a fork", "EATING");
-	mutex_jobs(&philo->main->forks[philo->fork.left], LOCK);
-	philo_print(philo, BLUE, "has taken a fork", "EATING");
-	philo_print(philo, YELLOW, "is eating", "EATING");
-	set_long(&philo->philo_mutex, &philo->last_time_ate, get_current_time());
-	set_meals_ate(&philo->philo_mutex, &philo->meals_ate);
-	precise_usleep(philo->main->time_to_eat);
-	if (get_meals_ate(&philo->philo_mutex, &philo->meals_ate)
-		== philo->main->sum_to_eat)
-		set_bool(&philo->philo_mutex, &philo->full, true);
-	mutex_jobs(&philo->main->forks[philo->fork.right], UNLOCK);
-	mutex_jobs(&philo->main->forks[philo->fork.left], UNLOCK);
+    t_mtx *first_fork;
+    t_mtx *second_fork;
+// printf("Philosopher %d is attempting to eat...\n", philo->id);
+    // Determine the order of forks based on their IDs (smaller ID first)
+    if (philo->fork.left < philo->fork.right)
+    {
+        first_fork = &philo->main->forks[philo->fork.left];
+        second_fork = &philo->main->forks[philo->fork.right];
+    }
+    else
+    {
+        first_fork = &philo->main->forks[philo->fork.right];
+        second_fork = &philo->main->forks[philo->fork.left];
+    }
+
+    // Lock the forks in the determined order
+    mutex_jobs(first_fork, LOCK);
+    philo_print(philo, BLUE, "has taken a fork", "EATING");
+    mutex_jobs(second_fork, LOCK);
+    philo_print(philo, BLUE, "has taken a fork", "EATING");
+
+    // Philosopher is now eating
+    philo_print(philo, YELLOW, "is eating", "EATING");
+    set_long(&philo->philo_mutex, &philo->last_time_ate, get_current_time());
+    set_meals_ate(&philo->philo_mutex, &philo->meals_ate);
+    precise_usleep(philo->main->time_to_eat);
+    if (get_meals_ate(&philo->philo_mutex, &philo->meals_ate) == philo->main->sum_to_eat)
+        set_bool(&philo->philo_mutex, &philo->full, true);
+
+    // Unlock the forks in the same order
+    mutex_jobs(first_fork, UNLOCK);
+    mutex_jobs(second_fork, UNLOCK);
+	//   printf("Philosopher %d has finished eating.\n", philo->id);
 }
+
+
 
 void	sleep_time(t_philo *philo)
 {

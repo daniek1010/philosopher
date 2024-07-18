@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 01:23:56 by danevans          #+#    #+#             */
-/*   Updated: 2024/07/17 22:58:16 by danevans         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:53:19 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	get_meals_ate(t_mtx *mutex, int *variable)
 	on the odd philo_id and then allowing then to think*/
 void	de_synchronize_philos(t_philo *philo)
 {
+	mutex_jobs((&philo->philo_mutex), LOCK);
 	if (philo->main->num_philo % 2 == 0)
 	{
 		if (philo->id % 2 == 0)
@@ -48,6 +49,7 @@ void	de_synchronize_philos(t_philo *philo)
 		if (philo->id % 2)
 			think_time(philo, true);
 	}
+	mutex_jobs((&philo->philo_mutex), UNLOCK);
 }
 
 void	ft_cleanup(t_main *main)
@@ -59,7 +61,7 @@ void	ft_cleanup(t_main *main)
 		mutex_jobs(&main->forks[i], DESTROY);
 	i = -1;
 	while (++i < main->num_philo)
-		mutex_jobs(&main->philo->philo_mutex, DESTROY);
+		mutex_jobs(&main->philo[i].philo_mutex, DESTROY);
 	mutex_jobs(&main->lock_mtx, DESTROY);
 	mutex_jobs(&main->write, DESTROY);
 	free(main->philo);
