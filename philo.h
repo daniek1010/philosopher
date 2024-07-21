@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 10:39:13 by danevans          #+#    #+#             */
-/*   Updated: 2024/07/18 12:49:53 by danevans         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:44:40 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ typedef struct s_philo
 	pthread_t	thread;
 	t_main		*main;
 	t_mtx		philo_mutex;
-	// t_mtx		lock;
+	t_mtx		*first_fork;
+	t_mtx		*second_fork;
 }	t_philo;
 
 typedef struct s_main

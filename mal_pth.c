@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:51:31 by danevans          #+#    #+#             */
-/*   Updated: 2024/07/18 15:36:20 by danevans         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:44:09 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,10 @@ void	mutex_jobs(t_mtx *mutex, t_code opcode)
 {
 	if (INIT == opcode)
 		mutex_error(pthread_mutex_init(mutex, NULL), opcode);
-	else if (LOCK == opcode){
-		// printf("Locking mutex %p\n", (void *)mutex);
-		mutex_error(pthread_mutex_lock(mutex), opcode);}
-	else if (UNLOCK == opcode){
-		// printf("Unlocking mutex %p\n", (void *)mutex);
-		mutex_error(pthread_mutex_unlock(mutex), opcode);}
+	else if (LOCK == opcode)
+		mutex_error(pthread_mutex_lock(mutex), opcode);
+	else if (UNLOCK == opcode)
+		mutex_error(pthread_mutex_unlock(mutex), opcode);
 	else if (DESTROY == opcode)
 		mutex_error(pthread_mutex_destroy(mutex), opcode);
 	else

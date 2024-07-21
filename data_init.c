@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danevans <danevans@student.42.f>           +#+  +:+       +#+        */
+/*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/03 12:42:57 by danevans          #+#    #+#             */
-/*   Updated: 2024/07/17 22:29:26 by danevans         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:03:02 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	*routine(void *data)
 
 	philo = (t_philo *)data;
 	de_synchronize_philos(philo);
-	while (!get_bool(&philo->philo_mutex, &philo->main->is_dead))
+	while (!get_bool(&philo->main->lock_mtx, &philo->main->is_dead))
 	{
 		if (get_bool(&philo->philo_mutex, &philo->full))
 			break ;

@@ -6,7 +6,7 @@
 /*   By: danevans <danevans@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 01:23:56 by danevans          #+#    #+#             */
-/*   Updated: 2024/07/18 14:53:19 by danevans         ###   ########.fr       */
+/*   Updated: 2024/07/21 20:17:49 by danevans         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	get_meals_ate(t_mtx *mutex, int *variable)
 
 /*	I used this function to slow down the immediate 
 	the grabing or racing for the fork by focusing
-	on the odd philo_id and then allowing then to think*/
+	on the odd philo_id and then allowing then to think  */
 void	de_synchronize_philos(t_philo *philo)
 {
 	mutex_jobs((&philo->philo_mutex), LOCK);
